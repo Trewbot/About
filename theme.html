@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>{Title}</title>
+	<link rel="shortcut icon" href="{Favicon}">
+	<link rel="alternate" type="application/rss+xml" href="{RSS}">
+	{block:Description}
+		<meta name="description" content="{MetaDescription}" />
+	{/block:Description}
+
+	<meta name="select:Alignment" content="justify" title="Justified"/>
+	<meta name="select:Alignment" content="center" title="Centered"/>
+	<meta name="select:Alignment" content="left" title="Left"/>
+	<meta name="select:Avatar Style" content="0" title="Square"/>
+	<meta name="select:Avatar Style" content="50%" title="Circle"/>
+	<meta name="Background" content="#fff"/>
+	<meta name="font:Font" content="Arial, Helvetica, sans-serif"/>
+	<meta name="text:Home" content="about"/>
+	<meta name="color:Link" content="#111"/>
+	<meta name="color:LinkHover" content="#111"/>
+	<meta name="select:Size" content="10pt" title="Small"/>
+	<meta name="select:Size" content="12pt" title="Medium"/>
+	<meta name="select:Size" content="14pt" title="Large"/>
+	<meta name="color:Text" content="#111"/>
+	<meta name="if:Underline Links" content="1"/>
+	<meta name="text:Google Analytics ID" content=""/>
+
+	<style>
+		*						{margin:0px;zoom:1;font-size:{select:Size};font-family:{font:Font};outline:0;border:0;}
+		html					{color:{color:Text};background:{BackgroundColor};}
+		body, td				{padding:0;}
+		a						{text-decoration:none;cursor:pointer;color:{color:Link};}
+		a:hover					{{block:IfUnderlineLinks}text-decoration:underline;{/block:IfUnderlineLinks}color:{color:LinkHover};}
+		table					{border-spacing:0;}
+		img						{-webkit-transform:translateZ(0);-webkit-transform: rotate(0);}
+		hr						{border:0;height:1px;background:{color:Text};margin-top:10px;margin-bottom:10px;}
+		p						{margin-bottom:10px;}
+		p:last-child			{margin:0;}
+		blockquote				{margin-bottom:10px;padding-left:9px;border-left:1px solid {color:Text};}
+		
+		#container				{width:100vw;height:100vh;overflow:hidden;}
+		.with-notes				{overflow-y:auto !important;}
+		.align-outer			{display:table;width:100vw;height:100vh;position:relative;}
+		.align-middle			{display:table-cell;vertical-align:middle;}
+		.align-inner			{margin-left:auto;margin-right:auto;width:304px;text-align:{select:Alignment};overflow-x:hidden;max-height:calc(100vh - 100px);overflow-y:auto;}
+		.align-inner-inner		{margin-left:auto;margin-right:auto;width:250px;}
+		.nav					{width:100%;text-align:center;position:fixed;bottom:10px;z-index:2;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;text-transform:lowercase;}
+		.nav-notes				{width:100%;text-align:center;position:absolute;left:0;bottom:10px;z-index:2;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;text-transform:lowercase;}
+		.nav-with-notes			{display:none;}
+		.desc					{display:none;}
+		.desc1					{display:table;}
+		#avatar					{margin-left:auto;margin-right:auto;margin-bottom:10px;width:128px;position:relative;}
+		#avatar img				{border-radius:{select:Avatar Style}}
+		.post					{}
+		.post-img				{position:relative;margin-bottom:10px;}
+		.space					{margin-bottom:10px;}
+		.html_photoset			{margin-bottom:10px;}
+		.info					{position:absolute;bottom:10px;left:10px;z-index:3;text-transform:lowercase;}
+		.attribution			{text-align:right;right:10px;bottom:10px;position:absolute;font-size:8pt;z-index:3;}
+		.attribution a			{font-size:8pt;}
+		
+		{CustomCSS}
+	</style>
+	
+</head>
+<body>
+	<div id="container" class="{block:PostNotes}with-notes{/block:PostNotes}">
+	{block:IndexPage}
+		<div class="align-outer desc desc{CurrentPage}">
+		<div class="align-middle">
+		<div class="align-inner">
+		<div class="align-inner-inner">
+			{block:ShowAvatar}<div id="avatar"><a href="{BlogURL}"><img src="{PortraitURL-128}"/></a></div>{/block:ShowAvatar} 
+			{Description}
+		</div>
+		</div>
+		</div>
+		</div>
+	{/block:IndexPage}
+	{block:Posts inlineMediaWidth="250" inlineNestedMediaWidth="250"}
+		<div class="align-outer">
+		<div class="align-middle">
+		<div class="align-inner">
+		<div class="align-inner-inner">
+			{block:Text}
+				{block:Title}<b>{Title}</b><hr>{/block:Title}
+				{Body}
+			{/block:Text}{block:Photo}
+				{LinkOpenTag}<img class="post-img" src="{PhotoURL-250}"/>{LinkCloseTag}
+				<!-- {PhotoAlt} -->
+				{block:Caption}{Caption}{/block:Caption}
+			{/block:Photo}{block:Panorama}
+				{LinkOpenTag}<img class="post-img" src="{PhotoURL-250}"/>{LinkCloseTag}
+				<!-- {PhotoAlt} -->
+				{block:Caption}{Caption}<br>{/block:Caption}
+			{/block:Panorama}{block:Photoset}
+				{Photoset-250}
+				{block:Caption}{Caption}{/block:Caption}
+			{/block:Photoset}{block:Quote}
+				<b>"{Quote}"</b><br><br>
+				{block:Source}&mdash;{Source}{/block:Source}
+			{/block:Quote}{block:Link}
+				<a href="{URL}" {Target}>{Name}</a>
+				{block:Description}{Description}{/block:Description}
+			{/block:Link}{block:Chat}
+				{block:Title}<b>{Title}</b><hr>{/block:Title}
+				{block:Lines}
+					<p>{block:Label}<b>{Label}</b>&nbsp;{/block:Label}{Line}</p>
+				{/block:Lines}
+			{/block:Chat}{block:Audio}
+				{block:AudioEmbed}{AudioEmbed-250}{/block:AudioEmbed}
+				{block:AudioPlayer}{AudioPlayer}{/block:AudioPlayer}
+				{block:Caption}<div class="space"></div>{Caption}{/block:Caption}
+			{/block:Audio}{block:Video}
+				{Video-250}
+				{block:Caption}<div class="space"></div>{Caption}{/block:Caption}
+			{/block:Video}{block:Answer}
+				{Asker}:&nbsp;<b>"{Quote}"</b><br><br>
+				{Replies}
+			{/block:Answer}
+			{block:More}<p><a href="{Permalink}">{lang:Read more}...</a></p>{/block:More}
+		</div>
+		</div>
+		</div>
+		<div class="info">
+			<a href="{Permalink}">{lang:Permalink}</a>{block:NoteCount} &bull; {NoteCountWithLabel}{/block:NoteCount}
+		</div>
+		{block:PostNotes}<div class="nav-notes"><a href="{BlogURL}">{text:Home}</a> &bull; <a href="/archive">{lang:Archive}</a>{block:AskEnabled} &bull; <a href="/ask">{lang:Ask}</a>{/block:AskEnabled}{block:SubmissionsEnabled} &bull; <a href="/submit">submit</a>{/block:SubmissionsEnabled}</div>{/block:PostNotes}
+		</div>
+		{block:PostNotes}
+			<div class="align-inner-inner">
+				{PostNotes}
+			</div>
+		{/block:PostNotes}
+	{/block:Posts}
+	</div>
+	<div class="nav {block:PostNotes}nav-with-notes{/block:PostNotes}">{block:IndexPage}<a onclick="prev()">&larr; {lang:Prev}</a>  &bull; {/block:IndexPage}<a href="{BlogURL}">{text:Home}</a> &bull; <a href="/archive">{lang:Archive}</a>{block:AskEnabled} &bull; <a href="/ask">{lang:Ask}</a>{/block:AskEnabled}{block:SubmissionsEnabled} &bull; <a href="/submit">submit</a>{/block:SubmissionsEnabled}{block:IndexPage} &bull; <a onclick="next()">{lang:Next} &rarr;</a>{/block:IndexPage}</div>
+	<div class="attribution">"about" by <a href="http://themes.phene.co">trewbot</a> &copy; 2015</div>
+	<script>
+		var page = +"{CurrentPage}",
+			pages = +"{TotalPages}",
+			level = 0;
+		function prev(){
+			var e = document.getElementById("container");
+			if(e.scrollTop == 0 && page != 1) window.location.assign("{block:Pagination}{block:PreviousPage}{PreviousPage}{/block:PreviousPage}{/block:Pagination}#prev");
+			else e.scrollTop -= e.children[2].scrollHeight;
+			level = ~~(e.scrollTop / e.children[2].scrollHeight);
+		}
+		function next(){
+			var e = document.getElementById("container"),
+				height = Math.max(e.scrollHeight,e.offsetHeight,e.clientHeight);
+			if(e.scrollTop > height - (e.children[2].scrollHeight*2) && page < pages) window.location.assign("{block:Pagination}{block:NextPage}{NextPage}{/block:NextPage}{/block:Pagination}");
+			else e.scrollTop += e.children[2].scrollHeight;
+			level = ~~(e.scrollTop / e.children[2].scrollHeight);
+		}
+		if(location.hash && location.hash.substring(1) == "prev"){
+			var e = document.getElementById("container"),
+				height = Math.max(e.scrollHeight,e.offsetHeight,e.clientHeight);
+			e.scrollTop = height - e.children[2].scrollHeight;
+		}
+		window.onresize = function(){
+			var e = document.getElementById("container");
+			e.scrollTop = e.children[2].scrollHeight * level;
+		}
+	</script>
+	{block:IfGoogleAnalyticsID}
+	<script>
+		var _gaq=[['_setAccount','{text:Google Analytics ID}'],['_trackPageview']];
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
+	{/block:IfGoogleAnalyticsID}
+</body>
+</html>
